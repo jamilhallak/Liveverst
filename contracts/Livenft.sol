@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: MIT
+// BY JNBEZ
+
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
@@ -17,6 +19,7 @@ contract Livenft is ERC1155, Ownable {
     mapping (uint =>uint256) public  price ;
     uint256 public Busd_balance ;
     mapping (address =>string) public user_tier ;
+    
 constructor(IERC20 _BUSD_contract_address)  ERC1155("https://ipfs.io/ipfs/QmNtkYkCuv6mtyzHxdZduiCyuT8Hag5XvFLK53Ga9zbYZb/{id}.json") {
     _mint(address(this), VeryHappy, 1000, "");
     _mint(address(this), Happy, 10000, "");
@@ -29,14 +32,13 @@ constructor(IERC20 _BUSD_contract_address)  ERC1155("https://ipfs.io/ipfs/QmNtkY
     price[2]=  1000;
     price[3]=  500;
     price[4]=  100;
-
-
 }
 
-
+//******Event******* :
 
 event Log_withdraw_Busd(uint256 amount) ;
 event  buy_nfts(uint256 indexed  _tokenId,address indexed _user,uint256 _tokenAmount);
+
 //********orveride functions************* :
 
 //override for opensea ;
@@ -126,9 +128,9 @@ else if (_tokenId==3){
 }
 
  function withdraw_usdt() external onlyOwner {
-    emit Log_withdraw_Busd( BUSD_contact.balanceOf(address(this))) ;
     BUSD_contact.transfer(msg.sender, Busd_balance);
     Busd_balance =0 ;
+    emit Log_withdraw_Busd( BUSD_contact.balanceOf(address(this))) ;
 
         }
 }
